@@ -18,6 +18,8 @@ private:
 	Contact* book;
 	static int size;
 
+	void info_Contact(int _i)const;
+
 public:
 
 	PhoneBook();

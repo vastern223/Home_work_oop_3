@@ -2,14 +2,29 @@
 
 int PhoneBook::size = 0;
 
-PhoneBook:: PhoneBook()
+void PhoneBook::info_Contact(int _i) const
+{
+	cout << "name :" << book[_i].name << endl;
+	cout << "mobile Number :" << book[_i].mobileNumber << endl;
+	cout << "home Number :" << book[_i].homeNumber << endl;
+}
+
+PhoneBook::PhoneBook()
 {
 	size = 0;
 	book = nullptr;
 }
 
-void  PhoneBook:: AddnewContact(const char* _name, const  char* _mobileNumber, const char* _homeNumber)
+void PhoneBook::AddnewContact(const char* _name, const  char* _mobileNumber, const char* _homeNumber)
 {
+	for (int i = 0; i < size; i++)
+	{
+		if (strcmp(book[i].name, _name) == 0)
+		{
+			cout << "This name is already taken"<<endl;
+			return;
+		}
+	}
 	Contact* arr_contact = new Contact[size + 1];
 	for (int i = 0; i < size; i++)
 	{
@@ -23,31 +38,36 @@ void  PhoneBook:: AddnewContact(const char* _name, const  char* _mobileNumber, c
 	book = arr_contact;
 }
 
-void PhoneBook:: DeleteContact(const char* _name)
-{
-	Contact* arr_contact = new Contact[size - 1];
-	for (int i = 0, j = 0; i < size; i++)
-	{
-		if (strcmp(book[i].name, _name) != 0)
-		{
-			arr_contact[j] = book[i];
-			++j;
-		}
-	}
-	delete[] book;
-	--size;
-	book = arr_contact;
-}
-
-void PhoneBook:: SearchContact_name(const char* _name)const
+void PhoneBook::DeleteContact(const char* _name)
 {
 	for (int i = 0; i < size; i++)
 	{
 		if (strcmp(book[i].name, _name) == 0)
 		{
-			cout << "name :" << book[i].name << endl;
-			cout << "mobile Number :" << book[i].mobileNumber << endl;
-			cout << "home Number :" << book[i].homeNumber << endl;
+			Contact* arr_contact = new Contact[size - 1];
+			for (int i = 0, j = 0; i < size; i++)
+			{
+				if (strcmp(book[i].name, _name) != 0)
+				{
+					arr_contact[j] = book[i];
+					++j;
+				}
+			}
+			delete[] book;
+			--size;
+			book = arr_contact;
+			break;
+		}
+	}
+}
+
+void PhoneBook::SearchContact_name(const char* _name)const
+{
+	for (int i = 0; i < size; i++)
+	{
+		if (strcmp(book[i].name, _name) == 0)
+		{
+			info_Contact(i);
 			break;
 		}
 		else
@@ -63,9 +83,7 @@ void PhoneBook::SearchContact_number(const char* _mobileNumber)const
 	{
 		if (strcmp(book[i].mobileNumber, _mobileNumber) == 0)
 		{
-			cout << "name :" << book[i].name << endl;
-			cout << "mobile Number :" << book[i].mobileNumber << endl;
-			cout << "home Number :" << book[i].homeNumber << endl;
+			info_Contact(i);
 			break;
 		}
 		else
@@ -82,9 +100,7 @@ void PhoneBook::Show_all_Contact()const
 		cout << " ALL CONTACT\n";
 		for (int i = 0; i < size; i++)
 		{
-			cout << i + 1 << ")name :" << book[i].name << endl;
-			cout << "  mobile Number :" << book[i].mobileNumber << endl;
-			cout << "  home Number :" << book[i].homeNumber << endl;
+			info_Contact(i);
 		}
 	}
 	else
@@ -160,7 +176,7 @@ void PhoneBook::Load()
 				{
 					fin >> data1;
 					currentString++;
-					for (;j < size ;)
+					for (; j < size;)
 					{
 						if (currentString == 1)
 						{
@@ -179,7 +195,7 @@ void PhoneBook::Load()
 							currentString = 0;
 							++j;
 							break;
-							
+
 						}
 					}
 				}
@@ -187,12 +203,17 @@ void PhoneBook::Load()
 			fin.close();
 			delete[] book;
 			book = newContact;
-			
+
 		}
 	}
 
 }
-int PhoneBook:: Get_counter_contact()
+int PhoneBook::Get_counter_contact()
 {
 	return size;
 }
+
+
+
+
+

@@ -16,15 +16,8 @@ int main()
 
 	PhoneBook d1;
 	d1.AddnewContact("vasa","7754763735", "656465");
-	d1.AddnewContact("vas", "2345356563", "656465");
-	d1.Save();
-	d1.Load();
-	d1.Show_all_Contact();	
-	d1.DeleteContact("vas");
+	d1.AddnewContact("vasa", "2345356563", "656465");	
 	d1.Show_all_Contact();
-	d1.SearchContact_name("vasa");
-	d1.Show_all_Contact();
-
 	system("pause");
 	return 0;
 
